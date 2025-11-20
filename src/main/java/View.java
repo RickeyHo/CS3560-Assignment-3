@@ -1,16 +1,16 @@
 import com.openai.models.responses.Response;
+import com.openai.models.responses.ResponseError;
+import com.openai.models.responses.ResponseStatus;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import java.util.Optional;
 
 
 public class View {
@@ -18,6 +18,7 @@ public class View {
     public static void main(String[] args){
 
         final WritingSession[] writingSession = {null};
+        OpenAI openAI = OpenAI.getInstance();
 
         JFrame jFrame = new JFrame();
         jFrame.setSize(1000, 1000);
@@ -39,7 +40,6 @@ public class View {
         outputField.setEditable(true);
 
         JList versionHistory = new JList();
-
 
 
         ListSelectionListener listSelectionListener = new ListSelectionListener() {
@@ -85,8 +85,8 @@ public class View {
                     @Override
                     protected Object doInBackground() throws Exception {
 
-                        System.out.println(OpenAI.prompt);
-                        Response response = OpenAI.respond();
+                        System.out.println(openAI.prompt);
+                        Response response = openAI.respond();
                         publish(response);
                         return null;
                     }
@@ -95,12 +95,21 @@ public class View {
                     protected void process(List chunks) {
 
                         Response response = (Response) chunks.get(0);
-                        outputField.setText(response.output().get(1).message().get().content().get(0).outputText().get().text());
+
+                        if (response.status().equals(Optional.of(ResponseStatus.COMPLETED))){
+
+                            outputField.setText(response.output().get(1).message().get().content().get(0).outputText().get().text());
+
+                        } else {
+
+                            outputField.setText("Request failed. Error: " + response.error().get());
+
+                        }
 
                     }
 
                 };
-                OpenAI.prompt = "Make this text sound " + e.getActionCommand() + " JUST GIVE ONE VERSION OF TEXT NO CONVERSATION \"" + inputField.getText() + "\"";
+                openAI.prompt = "Make this text sound " + e.getActionCommand() + " JUST GIVE ONE VERSION OF TEXT NO CONVERSATION \"" + inputField.getText() + "\"";
 
                 swingWorker.execute();
             }

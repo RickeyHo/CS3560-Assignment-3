@@ -1,32 +1,42 @@
-
-import com.google.gson.Gson;
 import com.openai.client.OpenAIClient;
-import com.openai.client.OpenAIClientAsync;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
-import com.openai.client.okhttp.OpenAIOkHttpClientAsync;
 import com.openai.models.ChatModel;
 import com.openai.models.responses.Response;
 import com.openai.models.responses.ResponseCreateParams;
+import com.openai.models.responses.ResponseStatus;
 
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import java.util.Optional;
 
 import static java.lang.Character.getType;
 
-public class OpenAI{
+public enum OpenAI {
 
-    public static String prompt = "";
+    INSTANCE();
 
-    public static Response respond() {
+    public String prompt = "";
+    private OpenAIClient client = OpenAIOkHttpClient.fromEnv();
 
-        OpenAIClient client = OpenAIOkHttpClient.fromEnv();
+    public Response respond() {
+
         ResponseCreateParams params = ResponseCreateParams.builder()
                 .input(prompt)
                 .model(ChatModel.GPT_5)
                 .build();
+
+
         Response response = client.responses().create(params);
+        System.out.println(response.status().getClass());
+        System.out.println(response.status());
+
         return response;
+
+
+    }
+
+    public static OpenAI getInstance(){
+
+        return INSTANCE;
 
     }
 
