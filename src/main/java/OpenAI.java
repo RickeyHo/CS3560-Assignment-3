@@ -26,7 +26,6 @@ public enum OpenAI {
 
 
         Response response = client.responses().create(params);
-        System.out.println(response.status().getClass());
         System.out.println(response.status());
 
         return response;

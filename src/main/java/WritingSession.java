@@ -31,13 +31,15 @@ public class WritingSession {
     public Version getSave(LocalDateTime localDateTime){
 
         try {
-
+            System.out.println("GOTTEN: " + history.get(localDateTime).content);
             return history.get(localDateTime);
 
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
 
-            throw new RuntimeException(e);
+            return new Version("Save not found.");
+
         }
+
 
     }
 
