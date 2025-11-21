@@ -13,4 +13,4 @@
 - Singleton: ChatGPT wrapper class is declared as singleton
 - Observer: UI updates
 
-## Demo: [video link]
+## Demo: [[video link]](https://www.youtube.com/watch?v=lQNSX4-yMWE)
