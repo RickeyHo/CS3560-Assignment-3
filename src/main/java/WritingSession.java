@@ -30,15 +30,15 @@ public class WritingSession {
 
     public Version getSave(LocalDateTime localDateTime){
 
-        try {
-            System.out.println("GOTTEN: " + history.get(localDateTime).content);
-            return history.get(localDateTime);
+            if (history.get(localDateTime) != null){
 
-        } catch (Exception e) {
+                return history.get(localDateTime);
 
-            return new Version("Save not found.");
+            } else {
 
-        }
+                return new Version("Save not found.");
+
+            }
 
 
     }

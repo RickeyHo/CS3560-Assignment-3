@@ -48,10 +48,7 @@ public class JUnit {
 
         String content = "Сколько человек в нашей семье?";
 
-
         WritingSession writingSession = new WritingSession("China", content);
-        System.out.println("ORIGINAL: " + content);
-        System.out.println("NEW: " + writingSession.getSave(writingSession.saves.get(0)).content);
 
         assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content));
 
@@ -100,7 +97,7 @@ public class JUnit {
         writingSession.content = content4;
         writingSession.save();
 
-        //assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content1));
+        assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content1));
         System.out.println(writingSession.getSave(writingSession.saves.get(0)).content);
         assertTrue(writingSession.getSave(writingSession.saves.get(1)).content.equals(content2));
         System.out.println(writingSession.getSave(writingSession.saves.get(1)).content);
