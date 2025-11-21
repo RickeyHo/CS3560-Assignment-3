@@ -1,4 +1,4 @@
-# Project Title
+# ChatGPT Wrapper 'Writing Assistant'
 
 ## Setup
 1. Get API key from OpenAI api
