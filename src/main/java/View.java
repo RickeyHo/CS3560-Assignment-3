@@ -46,7 +46,11 @@ public class View {
             @Override
             public void valueChanged(ListSelectionEvent e) {
 
-                outputField.setText(writingSession[0].getSave((LocalDateTime) versionHistory.getSelectedValue()).content);
+                if (versionHistory.getSelectedValue() != null){
+
+                    outputField.setText(writingSession[0].getSave((LocalDateTime) versionHistory.getSelectedValue()).content);
+
+                }
 
             }
         };
@@ -135,8 +139,6 @@ public class View {
         buttonPanel.add(save);
         buttonPanel.add(versionHistory);
         jFrame.setVisible(true);
-
-        //CompletableFuture<Response> response = OpenAI.promptWith("Hello");
 
 
 
