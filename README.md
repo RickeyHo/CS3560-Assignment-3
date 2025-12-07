@@ -12,5 +12,6 @@
 ## Design Patterns
 - Singleton: ChatGPT wrapper class is declared as singleton
 - Observer: UI updates
+- Factory: Version control that constructs Version objects for each iteration
 
 ## Demo: [[video link]](https://www.youtube.com/watch?v=lQNSX4-yMWE)
