@@ -17,7 +17,7 @@ public enum OpenAI {
     public String prompt = "";
     private OpenAIClient client = OpenAIOkHttpClient.fromEnv();
 
-    public Response respond() {
+    public Response respond() throws RuntimeException {
 
         ResponseCreateParams params = ResponseCreateParams.builder()
                 .input(prompt)
@@ -27,9 +27,14 @@ public enum OpenAI {
 
         Response response = client.responses().create(params);
         System.out.println(response.status());
+        if (response.status().equals(Optional.of(ResponseStatus.COMPLETED))) {
+            return response;
 
-        return response;
+        } else {
 
+            throw new RuntimeException("Request failed. Error: " + "CHINA");
+
+        }
 
     }
 

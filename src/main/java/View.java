@@ -1,4 +1,6 @@
+import com.openai.models.beta.threads.runs.Run;
 import com.openai.models.responses.Response;
+import com.openai.models.responses.ResponseCreateParams;
 import com.openai.models.responses.ResponseError;
 import com.openai.models.responses.ResponseStatus;
 
@@ -11,11 +13,12 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 
 public class View {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws RuntimeException{
 
         final WritingSession[] writingSession = {null};
         OpenAI openAI = OpenAI.getInstance();
@@ -87,31 +90,40 @@ public class View {
 
                 SwingWorker swingWorker  = new SwingWorker() {
                     @Override
-                    protected Object doInBackground() throws Exception {
+                    protected Response doInBackground() throws Exception {
 
                         System.out.println(openAI.prompt);
                         Response response = openAI.respond();
-                        publish(response);
-                        return null;
+
+                        try {
+                            openAI.respond();
+                            return response;
+
+                        } catch (RuntimeException e) {
+
+                            throw e;
+                        }
+
+
+
                     }
 
                     @Override
-                    protected void process(List chunks) {
+                    protected void done() {
 
-                        Response response = (Response) chunks.get(0);
-
-                        if (response.status().equals(Optional.of(ResponseStatus.COMPLETED))){
-
+                        Response response = null;
+                        try {
+                            get(); //throws exception to be catched if the request failed
+                            response = (Response) get();
                             outputField.setText(response.output().get(1).message().get().content().get(0).outputText().get().text());
 
-                        } else {
+                        } catch (Exception ex) {
 
-                            outputField.setText("Request failed. Error: " + response.error().get());
-
+                            outputField.setText(ex.getMessage());
+                            throw new RuntimeException(ex);
                         }
 
                     }
-
                 };
                 openAI.prompt = "Make this text sound " + e.getActionCommand() + " JUST GIVE ONE VERSION OF TEXT NO CONVERSATION \"" + inputField.getText() + "\"";
 
