@@ -15,6 +15,18 @@ The Observer pattern was already naturally incorporated through the Swing GUI, s
 Factory Pattern:
 The Factory pattern was used in implementing the version history feature of my program. Each time the 'Save to history' button is pressed, my program calls a method which constructs a new Version object that stores that iteration of the writing with timestamps.
 
+## OOP Pillars
+
+Encapsulation was used throughout the program. For example, in the WritingSessions object the list containing the timestamps of all the previous saves and the hashmap storing the history is declared as private and when another object requests this list, a clone is returned in order to ensure that this list is not interferred with.
+
+Inheritance was used in order to improve the GUI. For example, the LocalDateTimeTable used in the GUI so that the user can select a version in the version history that they want to recover, extends JTable and overrides the prepare renderer method so that I could have greater control over and improve how the date and time is displayed in the GUI.
+
+Polymorphism was used as I overloaded the getSave() method in my WritingSessions object so that it can either take a LocalDateTime timestamps object to get the corresponding save or an int representing the index, so that I can get the ith save in the version history.
+
+The principle of abstraction was used with the wrapper class I created for the API, which abstracted away the details of the OpenAI api that was not relevant to my program, so that I could more easily and cleanly implement the GUI.
+
+
+
 ## AI Usage (BE HONEST!)
 AI was used only to help rewrite this section into the correct format. The underlying content and explanations are my own writing.
 
