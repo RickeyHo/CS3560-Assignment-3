@@ -1,10 +1,11 @@
+import com.openai.models.responses.Response;
 import com.openai.models.responses.ResponseStatus;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class JUnit {
@@ -15,10 +16,10 @@ public class JUnit {
 
         String content = "The culture and history of China.";
 
-        WritingSession writingSession = new WritingSession("China", content);
-        writingSession.save();
+        WritingSession writingSession = new WritingSession();
+        writingSession.save(content);
 
-        assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content));
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent().equals(content));
 
     }
 
@@ -27,9 +28,10 @@ public class JUnit {
 
         String content = "中国的文化历史。";
 
-        WritingSession writingSession = new WritingSession("China", content);
-        writingSession.save();
-        assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content));
+        WritingSession writingSession = new WritingSession();
+        writingSession.save(content);
+
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent().equals(content));
 
     }
     @Test
@@ -37,9 +39,10 @@ public class JUnit {
 
         String content = "Lịch sử và Văn hoá của Trung Quốc.";
 
-        WritingSession writingSession = new WritingSession("China", content);
-        writingSession.save();
-        assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content));
+        WritingSession writingSession = new WritingSession();
+        writingSession.save(content);
+
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent().equals(content));
 
     }
 
@@ -48,9 +51,10 @@ public class JUnit {
 
         String content = "Сколько человек в нашей семье?";
 
-        WritingSession writingSession = new WritingSession("China", content);
+        WritingSession writingSession = new WritingSession();
+        writingSession.save(content);
 
-        assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content));
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent().equals(content));
 
     }
 
@@ -62,22 +66,20 @@ public class JUnit {
         String content3 = "The culture and history of France.";
         String content4 = "The culture and history of Italy.";
 
-        WritingSession writingSession = new WritingSession("China", content1);
-        writingSession.content = content2;
-        writingSession.save();
-        writingSession.content = content3;
-        writingSession.save();
-        writingSession.content = content4;
-        writingSession.save();
+        WritingSession writingSession = new WritingSession();
+        writingSession.save(content1);
+        writingSession.save(content2);
+        writingSession.save(content3);
+        writingSession.save(content4);
 
-        assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content1));
-        System.out.println(writingSession.getSave(writingSession.saves.get(0)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(1)).content.equals(content2));
-        System.out.println(writingSession.getSave(writingSession.saves.get(1)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(2)).content.equals(content3));
-        System.out.println(writingSession.getSave(writingSession.saves.get(2)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(3)).content.equals(content4));
-        System.out.println(writingSession.getSave(writingSession.saves.get(3)).content);
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent().equals(content1));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(1)).getContent().equals(content2));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(1)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(2)).getContent().equals(content3));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(2)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(3)).getContent().equals(content4));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(3)).getContent());
 
     }
 
@@ -89,22 +91,20 @@ public class JUnit {
         String content3 = "蒙古历史文化";
         String content4 = "越南历史文化";
 
-        WritingSession writingSession = new WritingSession("China", content1);
-        writingSession.content = content2;
-        writingSession.save();
-        writingSession.content = content3;
-        writingSession.save();
-        writingSession.content = content4;
-        writingSession.save();
+        WritingSession writingSession = new WritingSession();
+        writingSession.save(content1);
+        writingSession.save(content2);
+        writingSession.save(content3);
+        writingSession.save(content4);
 
-        assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content1));
-        System.out.println(writingSession.getSave(writingSession.saves.get(0)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(1)).content.equals(content2));
-        System.out.println(writingSession.getSave(writingSession.saves.get(1)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(2)).content.equals(content3));
-        System.out.println(writingSession.getSave(writingSession.saves.get(2)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(3)).content.equals(content4));
-        System.out.println(writingSession.getSave(writingSession.saves.get(3)).content);
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent().equals(content1));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(1)).getContent().equals(content2));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(1)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(2)).getContent().equals(content3));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(2)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(3)).getContent().equals(content4));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(3)).getContent());
 
     }
     @Test
@@ -115,22 +115,20 @@ public class JUnit {
         String content3 = "Hà Lan có văn hoá và lịch sử.";
         String content4 = "Việt Nam có văn hoá và lịch sử.";
 
-        WritingSession writingSession = new WritingSession("China", content1);
-        writingSession.content = content2;
-        writingSession.save();
-        writingSession.content = content3;
-        writingSession.save();
-        writingSession.content = content4;
-        writingSession.save();
+        WritingSession writingSession = new WritingSession();
+        writingSession.save(content1);
+        writingSession.save(content2);
+        writingSession.save(content3);
+        writingSession.save(content4);
 
-        //assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content1));
-        System.out.println(writingSession.getSave(writingSession.saves.get(0)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(1)).content.equals(content2));
-        System.out.println(writingSession.getSave(writingSession.saves.get(1)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(2)).content.equals(content3));
-        System.out.println(writingSession.getSave(writingSession.saves.get(2)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(3)).content.equals(content4));
-        System.out.println(writingSession.getSave(writingSession.saves.get(3)).content);
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent().equals(content1));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(1)).getContent().equals(content2));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(1)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(2)).getContent().equals(content3));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(2)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(3)).getContent().equals(content4));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(3)).getContent());
 
     }
 
@@ -142,41 +140,53 @@ public class JUnit {
         String content3 = "Что любит Аня на завтрак?";
         String content4 = "Кто такая Аня?";
 
-        WritingSession writingSession = new WritingSession("China", content1);
-        writingSession.content = content2;
-        writingSession.save();
-        writingSession.content = content3;
-        writingSession.save();
-        writingSession.content = content4;
-        writingSession.save();
+        WritingSession writingSession = new WritingSession();
+        writingSession.save(content1);
+        writingSession.save(content2);
+        writingSession.save(content3);
+        writingSession.save(content4);
 
-        assertTrue(writingSession.getSave(writingSession.saves.get(0)).content.equals(content1));
-        System.out.println(writingSession.getSave(writingSession.saves.get(0)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(1)).content.equals(content2));
-        System.out.println(writingSession.getSave(writingSession.saves.get(1)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(2)).content.equals(content3));
-        System.out.println(writingSession.getSave(writingSession.saves.get(2)).content);
-        assertTrue(writingSession.getSave(writingSession.saves.get(3)).content.equals(content4));
-        System.out.println(writingSession.getSave(writingSession.saves.get(3)).content);
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent().equals(content1));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(0)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(1)).getContent().equals(content2));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(1)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(2)).getContent().equals(content3));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(2)).getContent());
+        assertTrue(writingSession.getSave(writingSession.getTimestamps().get(3)).getContent().equals(content4));
+        System.out.println(writingSession.getSave(writingSession.getTimestamps().get(3)).getContent());
 
     }
 
     @Test
     void testAPI(){
 
-        OpenAI.INSTANCE.prompt = "test";
-        assertTrue(OpenAI.INSTANCE.respond().status().equals(Optional.of(ResponseStatus.COMPLETED)));
+        OpenAI.INSTANCE.setPrompt("Just respond with the word 'test'");
+
+        Response response = OpenAI.INSTANCE.respond();
+
+        assertEquals(response.status(), Optional.of(ResponseStatus.COMPLETED));
+        assertEquals(response.output().get(1).message().get().content().get(0).outputText().get().text(), "test");
 
     }
 
     @Test
     void checkErrorHandling() throws InterruptedException {
 
-        WritingSession writingSession = new WritingSession("China", "test");
+        WritingSession writingSession = new WritingSession();
+        writingSession.save("test");
 
         Thread.sleep(50);
-        assertTrue(writingSession.getSave(LocalDateTime.now()).content.equals("Save not found."));
 
+        try {
+
+            writingSession.getSave(LocalDateTime.now());
+            fail("Exception not thrown.");
+
+        } catch (Exception e){
+
+            assertEquals(e.getMessage(), "Save not found.");
+
+        }
     }
 
 

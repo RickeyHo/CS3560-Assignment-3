@@ -14,7 +14,9 @@ public enum OpenAI {
 
     INSTANCE();
 
-    public String prompt = "";
+
+
+    private String prompt = "";
     private OpenAIClient client = OpenAIOkHttpClient.fromEnv();
 
     public Response respond() throws RuntimeException {
@@ -42,6 +44,10 @@ public enum OpenAI {
 
         return INSTANCE;
 
+    }
+
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
     }
 
 }

@@ -20,7 +20,7 @@ public class View {
 
     public static void main(String[] args) throws RuntimeException{
 
-        final WritingSession[] writingSession = {null};
+        final WritingSession writingSession = new WritingSession();
         OpenAI openAI = OpenAI.getInstance();
 
         JFrame jFrame = new JFrame();
@@ -50,8 +50,16 @@ public class View {
             public void valueChanged(ListSelectionEvent e) {
 
                 if (versionHistory.getSelectedValue() != null){
+                    try {
 
-                    outputField.setText(writingSession[0].getSave((LocalDateTime) versionHistory.getSelectedValue()).content);
+                        outputField.setText(writingSession.getSave((LocalDateTime) versionHistory.getSelectedValue()).getContent());
+
+                    } catch (RuntimeException ex){
+
+                        outputField.setText(ex.getMessage());
+                        throw ex;
+
+                    }
 
                 }
 
@@ -69,18 +77,8 @@ public class View {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == save){
 
-                    if (writingSession[0] == null){
-
-                        writingSession[0] = new WritingSession("Title", outputField.getText());
-                        versionHistory.setListData(writingSession[0].saves.toArray());
-
-                    } else {
-
-                        writingSession[0].content = outputField.getText();
-                        writingSession[0].save();
-                        versionHistory.setListData(writingSession[0].saves.toArray());
-
-                    }
+                    writingSession.save(outputField.getText());
+                    versionHistory.setListData(writingSession.getTimestamps().toArray());
 
                     return;
 
@@ -92,7 +90,6 @@ public class View {
                     @Override
                     protected Response doInBackground() throws Exception {
 
-                        System.out.println(openAI.prompt);
                         Response response = openAI.respond();
 
                         try {
@@ -125,7 +122,7 @@ public class View {
 
                     }
                 };
-                openAI.prompt = "Make this text sound " + e.getActionCommand() + " JUST GIVE ONE VERSION OF TEXT NO CONVERSATION \"" + inputField.getText() + "\"";
+                openAI.setPrompt("Make this text sound " + e.getActionCommand() + " JUST GIVE ONE VERSION OF TEXT NO CONVERSATION \"" + inputField.getText() + "\"");
 
                 swingWorker.execute();
             }

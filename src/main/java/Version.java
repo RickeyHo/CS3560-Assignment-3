@@ -5,7 +5,7 @@ import java.time.LocalTime;
 public class Version {
 
     public LocalDateTime localDateTime;
-    public String content;
+    private String content;
 
     public Version (String content){
 
@@ -13,4 +13,12 @@ public class Version {
         this.localDateTime = LocalDateTime.now();
 
     }
+
+    public String getContent(){
+
+        return content;
+
+    }
+
+
 }

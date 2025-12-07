@@ -7,28 +7,28 @@ import java.util.LinkedList;
 public class WritingSession {
 
     private HashMap<LocalDateTime, Version> history = new HashMap<>();
-    public ArrayList<LocalDateTime> saves = new ArrayList<>();
-    public String content;
-    private String title;
+    private ArrayList<LocalDateTime> saves = new ArrayList<>();
+    private String content;
 
-    public WritingSession (String title, String content){
 
-        this.title = title;
+    public void save(String content){
+
         this.content = content;
-
-        save();
-
-    }
-
-    public void save(){
-
         LocalDateTime saveTime = LocalDateTime.now();
         history.put(saveTime, new Version(this.content));
         saves.add(saveTime);
 
     }
 
-    public Version getSave(LocalDateTime localDateTime){
+    public ArrayList<LocalDateTime> getTimestamps(){
+
+        return (ArrayList<LocalDateTime>) saves.clone();
+
+
+    }
+
+
+    public Version getSave(LocalDateTime localDateTime) throws RuntimeException{
 
             if (history.get(localDateTime) != null){
 
@@ -36,10 +36,9 @@ public class WritingSession {
 
             } else {
 
-                return new Version("Save not found.");
+                throw new RuntimeException("Save not found.");
 
             }
-
 
     }
 
