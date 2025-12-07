@@ -12,6 +12,9 @@ I implemented the Singleton pattern for the simplified wrapper class I created f
 Observer Pattern:  
 The Observer pattern was already naturally incorporated through the Swing GUI, specifically through the ActionListener class operating on the main event thread. This allowed the interface to respond to user actions in an event-driven way.
 
+Factory Pattern:
+The Factory pattern was used in implementing the version history feature of my program. Each time the 'Save to history' button is pressed, my program calls a method which constructs a new Version object that stores that iteration of the writing with timestamps.
+
 ## AI Usage (BE HONEST!)
 AI was used only to help rewrite this section into the correct format. The underlying content and explanations are my own writing.
 
