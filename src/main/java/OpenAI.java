@@ -28,13 +28,13 @@ public enum OpenAI {
 
 
         Response response = client.responses().create(params);
-        System.out.println(response.status());
+
         if (response.status().equals(Optional.of(ResponseStatus.COMPLETED))) {
             return response;
 
         } else {
 
-            throw new RuntimeException("Request failed. Error: " + "CHINA");
+            throw new RuntimeException("Request failed. Error: " + Optional.of(response.error()).toString());
 
         }
 

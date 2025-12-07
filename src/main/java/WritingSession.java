@@ -46,7 +46,6 @@ public class WritingSession {
 
         if (history.get(localDateTime) != null){
 
-            System.out.println(localDateTime);
             return history.get(localDateTime);
 
         } else {

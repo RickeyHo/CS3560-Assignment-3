@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 
 public class Version {
 
-    public LocalDateTime localDateTime;
+    private LocalDateTime localDateTime;
     private String content;
 
     public Version (String content){
@@ -19,4 +19,11 @@ public class Version {
     }
 
 
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
 }
