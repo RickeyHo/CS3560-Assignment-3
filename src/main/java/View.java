@@ -108,10 +108,11 @@ public class View {
                     @Override
                     protected Response doInBackground() throws Exception {
 
-                        Response response = openAI.respond();
+                        Response response = null;
 
                         try {
-                            openAI.respond();
+
+                            response = openAI.respond();
                             return response;
 
                         } catch (RuntimeException e) {
