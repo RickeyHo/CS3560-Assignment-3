@@ -6,14 +6,11 @@ public class WritingSession {
 
     private HashMap<LocalDateTime, Version> history = new HashMap<>();
     private ArrayList<LocalDateTime> saves = new ArrayList<>();
-    private String content;
-
 
     public void save(String content){
 
-        this.content = content;
         LocalDateTime saveTime = LocalDateTime.now();
-        history.put(saveTime, new Version(this.content));
+        history.put(saveTime, new Version(content));
         saves.add(saveTime);
 
     }
