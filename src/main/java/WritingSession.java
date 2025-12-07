@@ -1,8 +1,6 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class WritingSession {
 
@@ -39,6 +37,29 @@ public class WritingSession {
                 throw new RuntimeException("Save not found.");
 
             }
+
+    }
+
+    public Version getSave(int index) throws RuntimeException{
+
+        LocalDateTime localDateTime = saves.get(index);
+
+        if (history.get(localDateTime) != null){
+
+            System.out.println(localDateTime);
+            return history.get(localDateTime);
+
+        } else {
+
+            throw new RuntimeException("Save not found.");
+
+        }
+
+    }
+
+    public LocalDateTime mostRecentChangeTime(){
+
+        return saves.getLast();
 
     }
 

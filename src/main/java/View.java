@@ -1,19 +1,17 @@
-import com.openai.models.beta.threads.runs.Run;
 import com.openai.models.responses.Response;
-import com.openai.models.responses.ResponseCreateParams;
-import com.openai.models.responses.ResponseError;
-import com.openai.models.responses.ResponseStatus;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
+import java.util.Arrays;
+
+import static java.awt.SystemColor.control;
 
 
 public class View {
@@ -42,17 +40,34 @@ public class View {
         outputField.setLineWrap(true);
         outputField.setEditable(true);
 
-        JList versionHistory = new JList();
+        DateAndTimeTable list = new DateAndTimeTable();
+
+        String[] colNames = {"History"};
+
+        JScrollPane jScrollPane = new JScrollPane(list);
+        jScrollPane.setPreferredSize(new Dimension(5, 5));
+
+        DefaultTableModel model = new DefaultTableModel(null, colNames) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+
+                return false;
+
+            }
+
+        };
+
 
 
         ListSelectionListener listSelectionListener = new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
 
-                if (versionHistory.getSelectedValue() != null){
+                if (writingSession.getSave(list.getSelectedRow()).getContent() != null){
                     try {
 
-                        outputField.setText(writingSession.getSave((LocalDateTime) versionHistory.getSelectedValue()).getContent());
+                        outputField.setText(writingSession.getSave((LocalDateTime) model.getValueAt(list.getSelectedRow(), 0)).getContent());
 
                     } catch (RuntimeException ex){
 
@@ -66,6 +81,10 @@ public class View {
             }
         };
 
+        list.getSelectionModel().addListSelectionListener(listSelectionListener);
+        list.setModel(model);
+
+
         JButton formal = new JButton("Formal");
         JButton casual = new JButton("Casual");
         JButton elaborate = new JButton("Elaborate");
@@ -78,8 +97,7 @@ public class View {
                 if (e.getSource() == save){
 
                     writingSession.save(outputField.getText());
-                    versionHistory.setListData(writingSession.getTimestamps().toArray());
-
+                    model.addRow(new LocalDateTime[]{writingSession.mostRecentChangeTime()});
                     return;
 
                 }
@@ -102,9 +120,7 @@ public class View {
                         }
 
 
-
                     }
-
                     @Override
                     protected void done() {
 
@@ -134,11 +150,11 @@ public class View {
         elaborate.addActionListener(actionListener);
         shorten.addActionListener(actionListener);
         save.addActionListener(actionListener);
-        versionHistory.addListSelectionListener(listSelectionListener);
 
         jFrame.add(jPanel);
         jPanel.add(inputPane);
         jPanel.add(outputPane);
+        jPanel.add(jScrollPane);
         jPanel.add(buttonPanel);
 
         buttonPanel.add(formal);
@@ -146,7 +162,8 @@ public class View {
         buttonPanel.add(elaborate);
         buttonPanel.add(shorten);
         buttonPanel.add(save);
-        buttonPanel.add(versionHistory);
+
+
         jFrame.setVisible(true);
 
 
