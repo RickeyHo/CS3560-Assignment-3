@@ -13,7 +13,7 @@ Observer Pattern:
 The Observer pattern was already naturally incorporated through the Swing GUI, specifically through the ActionListener class operating on the main event thread. This allowed the interface to respond to user actions in an event-driven way.
 
 Factory Pattern:
-The Factory pattern was used in implementing the version history feature of my program. Each time the 'Save to history' button is pressed, my program calls a method which constructs a new Version object that stores that iteration of the writing with timestamps.
+The Factory pattern was used in implementing the version history feature of my program. Each time the 'Save to history' button is pressed, my program calls a method which uses a Factory to obtain a new Version object that stores that iteration of the writing with timestamps, and is of the correct type (draft or polished).
 
 ## OOP Pillars
 
