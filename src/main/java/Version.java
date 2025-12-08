@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Version implements VersionFactory{
+public class Version {
 
     private LocalDateTime localDateTime;
     private String content;
@@ -27,8 +27,4 @@ public class Version implements VersionFactory{
         this.localDateTime = localDateTime;
     }
 
-    @Override
-    public Version createVersion(String content) {
-        return new Version(content);
-    }
 }
