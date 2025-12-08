@@ -41,9 +41,11 @@ public class DateAndTimeTable extends JTable {
 
             LocalDateTime time = (LocalDateTime) value;
             time = time.truncatedTo(ChronoUnit.SECONDS);
-            component = renderer.getTableCellRendererComponent(this, DateTimeFormatter.ISO_LOCAL_TIME.format(time) + " - " + DateTimeFormatter.ISO_LOCAL_DATE.format(time),
+
+            component = renderer.getTableCellRendererComponent(this, DateTimeFormatter.ISO_LOCAL_TIME.format(time) + " - " + DateTimeFormatter.ISO_LOCAL_DATE.format(time) + " [" + WritingSession.getSave((LocalDateTime) value).getClass().getSimpleName() + "]",
                     isSelected, hasFocus,
                     row, column);
+
 
 
         } else {

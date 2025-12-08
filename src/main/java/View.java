@@ -18,14 +18,13 @@ public class View {
 
     public static void main(String[] args) throws RuntimeException{
 
-        final WritingSession writingSession = new WritingSession();
         OpenAI openAI = OpenAI.getInstance();
-
         JFrame jFrame = new JFrame();
         jFrame.setSize(1000, 1000);
 
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.X_AXIS));
+
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -64,10 +63,10 @@ public class View {
             @Override
             public void valueChanged(ListSelectionEvent e) {
 
-                if (writingSession.getSave(list.getSelectedRow()).getContent() != null){
+                if (WritingSession.getSave(list.getSelectedRow()).getContent() != null){
                     try {
 
-                        outputField.setText(writingSession.getSave((LocalDateTime) model.getValueAt(list.getSelectedRow(), 0)).getContent());
+                        outputField.setText(WritingSession.getSave((LocalDateTime) model.getValueAt(list.getSelectedRow(), 0)).getContent());
 
                     } catch (RuntimeException ex){
 
@@ -90,14 +89,22 @@ public class View {
         JButton elaborate = new JButton("Elaborate");
         JButton shorten = new JButton("Shorten");
         JButton save = new JButton("Save To History");
+        JCheckBox isDraftCheckBox = new JCheckBox("Is draft", true);
+
 
         ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == isDraftCheckBox){
+
+                    ToggledFactory.toggleIsDraft();
+                    return;
+
+                }
                 if (e.getSource() == save){
 
-                    writingSession.save(outputField.getText());
-                    model.addRow(new LocalDateTime[]{writingSession.mostRecentChangeTime()});
+                    WritingSession.save(outputField.getText());
+                    model.addRow(new LocalDateTime[]{WritingSession.mostRecentChangeTime()});
                     return;
 
                 }
@@ -151,7 +158,7 @@ public class View {
         elaborate.addActionListener(actionListener);
         shorten.addActionListener(actionListener);
         save.addActionListener(actionListener);
-
+        isDraftCheckBox.addActionListener(actionListener);
         jFrame.add(jPanel);
         jPanel.add(inputPane);
         jPanel.add(outputPane);
@@ -163,6 +170,7 @@ public class View {
         buttonPanel.add(elaborate);
         buttonPanel.add(shorten);
         buttonPanel.add(save);
+        buttonPanel.add(isDraftCheckBox);
 
 
         jFrame.setVisible(true);

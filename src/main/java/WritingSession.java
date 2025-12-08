@@ -4,18 +4,18 @@ import java.util.HashMap;
 
 public class WritingSession {
 
-    private HashMap<LocalDateTime, Version> history = new HashMap<>();
-    private ArrayList<LocalDateTime> saves = new ArrayList<>();
+    private static HashMap<LocalDateTime, Version> history = new HashMap<>();
+    private static ArrayList<LocalDateTime> saves = new ArrayList<>();
 
-    public void save(String content){
+    public static void save(String content){
 
         LocalDateTime saveTime = LocalDateTime.now();
-        history.put(saveTime, new Version(content));
+        history.put(saveTime, ToggledFactory.createVersion(content));
         saves.add(saveTime);
 
     }
 
-    public ArrayList<LocalDateTime> getTimestamps(){
+    public static ArrayList<LocalDateTime> getTimestamps(){
 
         return (ArrayList<LocalDateTime>) saves.clone();
 
@@ -23,7 +23,7 @@ public class WritingSession {
     }
 
 
-    public Version getSave(LocalDateTime localDateTime) throws RuntimeException{
+    public static Version getSave(LocalDateTime localDateTime) throws RuntimeException{
 
             if (history.get(localDateTime) != null){
 
@@ -37,7 +37,7 @@ public class WritingSession {
 
     }
 
-    public Version getSave(int index) throws RuntimeException{
+    public static Version getSave(int index) throws RuntimeException{
 
         LocalDateTime localDateTime = saves.get(index);
 
@@ -53,7 +53,7 @@ public class WritingSession {
 
     }
 
-    public LocalDateTime mostRecentChangeTime(){
+    public static LocalDateTime mostRecentChangeTime(){
 
         return saves.getLast();
 

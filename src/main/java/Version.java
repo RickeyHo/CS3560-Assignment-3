@@ -1,11 +1,11 @@
 import java.time.LocalDateTime;
 
-public class Version {
+public class Version implements VersionFactory{
 
     private LocalDateTime localDateTime;
     private String content;
 
-    public Version (String content){
+    Version(String content){
 
         this.content = content;
         this.localDateTime = LocalDateTime.now();
@@ -25,5 +25,10 @@ public class Version {
 
     public void setLocalDateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
+    }
+
+    @Override
+    public Version createVersion(String content) {
+        return new Version(content);
     }
 }
