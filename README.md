@@ -15,4 +15,4 @@
 - Factory: Version control that constructs Version objects for each iteration
 
 ## Demo: [[video link]](https://www.youtube.com/watch?v=lQNSX4-yMWE)
-## Long Demo (Final Project): [[[video link]](https://www.youtube.com/watch?v=ywzt0kRh9RY)
+## Long Demo (Final Project): [[video link]](https://www.youtube.com/watch?v=ywzt0kRh9RY)
